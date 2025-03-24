@@ -9,3 +9,4 @@ define what things we want i.e we specify each step to achieve the desired state
 Addpoint:Terraform is used for creating the infra and sometimes configure it and ansible is used to configure that infra like deploying etc both as IAC.
 TERRAFORM COMMANDS:
 refresh:query infra provider to get current state.
+Terraform init: initializes a working directory and downloads the necessary provider plugins and modules and setting up the backend for storing your infrastructure's state. Terraform plan: creates a dry-run, determining what actions are necessary to achieve the desired state defined in the Terraform configuration files.

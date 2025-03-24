@@ -9,7 +9,7 @@ In declarative we give the terraform a declaration that we want these things at 
 define what things we want i.e we specify each step to achieve the desired state.Terrafrom works in declarative approach.
 
 
-**Terraform Providers:** 
+**Provider:** 
 Terraform relies on plugins called providers to interact with cloud providers, SaaS providers, and other APIs.
 Terraform configurations must declare which providers they require so that Terraform can install and use them. Additionally, some providers require 
 configuration (like endpoint URLs or cloud regions) before they can be used.
@@ -17,12 +17,13 @@ Each provider adds a set of resource types and/or data sources that Terraform ca
 Every resource type is implemented by a provider; without providers, Terraform can't manage any kind of infrastructure.
 Most providers configure a specific infrastructure platform (either cloud or self-hosted). Providers can also offer local utilities for tasks like generating random numbers for unique resource names.
 
-**Terraform Resource:**
+**Resource:**
 Resources are the most important element in the Terraform language. Each resource block describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records.
 
-**variables:**
-this value can be used at multiple things. 
-Addpoint:Terraform is used for creating the infra and sometimes configure it and ansible is used to configure that infra like deploying etc both as IAC.
+**Variable:**
+Similar to variables in coding i.e decalred ones and can be used anywhere by eg:region= var.regionname. 
+We can also declare a full variable file containing all the variables and we can still access it from another file but the catch is that the files should be in same folder.
+
 
 
 **TERRAFORM COMMANDS:**
@@ -55,6 +56,12 @@ Terraform init: initializes a working directory and downloads the necessary prov
 -State Management(Modification of created resource like ami id,name,etc is there.When we apply terraform creates a **.tfstate** file which contains the current state of the resource so in this way it contains the current state of the resource and when we need to update it,it does so by seeing this file.Like if we want to change the ami of a resource it first checks the .tfstate file and then update that particular  correspondingly.Once applied, Terraform stores the resource state in a state file (terraform.tfstate), which helps manage infrastructure changes in the future.
 
 
+
+
+
+**PON**:
+Terraform is used for creating the infra and sometimes configure it and ansible is used to configure that infra like deploying etc both as IAC.
+You can create variables in one file and use it in another in terraform config.
 
 
 

@@ -106,6 +106,69 @@ pipeline {
    - If `CHECK_PLAN_ONLY=false`, it will apply changes to fix drift.
 
 ---
+## Additional Step: Notify Slack on Drift Detection
+
+Below is an extended pipeline script that includes Slack notifications for drift detection:
+
+```groovy
+pipeline {
+    agent any
+    environment {
+        AWS_REGION = 'ap-south-1'
+        SLACK_WEBHOOK_URL = 'hwebhook-url'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    git branch: 'master', url: 'https://github.com/bb-vivekkoul17072024/Terraform-codes.git'
+                }
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                script {
+                    dir('ec2-instance') {
+                        sh 'terraform init'
+                    }
+                }
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                script {
+                    dir('ec2-instance') {
+                        sh 'terraform plan -out=tfplan | tee plan_output.txt'
+                    }
+                }
+            }
+        }
+        stage('Check for Drift and Notify') {
+            steps {
+                script {
+                    dir('ec2-instance') {
+                        def planOutput = sh(script: "cat plan_output.txt", returnStdout: true).trim()
+
+                        if (planOutput.contains("No changes.")) {
+                            echo "No drift detected, no need for Slack notification."
+                        } else {
+                            echo "Drift detected! Sending Slack notification..."
+                            sh '''
+                                curl -X POST -H 'Content-type: application/json' \
+                                --data '{"text": "🚨 *Terraform Drift Detected!*\nChanges found in infrastructure. Review the plan output."}' \
+                                $SLACK_WEBHOOK_URL
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+This extension ensures that any infrastructure drift detected will trigger a Slack notification for immediate attention.
+
 
 ## Conclusion
 This Jenkins pipeline allows automated detection of infrastructure drift using Terraform. The parameter `CHECK_PLAN_ONLY` lets users decide whether to apply changes or just check for drift.

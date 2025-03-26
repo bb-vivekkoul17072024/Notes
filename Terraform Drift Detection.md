@@ -115,7 +115,7 @@ pipeline {
     agent any
     environment {
         AWS_REGION = 'ap-south-1'
-        SLACK_WEBHOOK_URL = 'hwebhook-url'
+        SLACK_WEBHOOK_URL = 'put-webhook-url'
     }
     stages {
         stage('Checkout') {
